@@ -11,4 +11,4 @@ az containerapp up \
   --registry-server $REGISTRY_SERVER \
   --environment $CONTAINERAPPS_ENVIRONMENT \
   --registry-username "VoltMinuteRegistry" \
-  --registry-password $PASSWORD_REGISTRY_VOLTMINUTE
+  --registry-password "$PASSWORD_REGISTRY_VOLTMINUTE"
