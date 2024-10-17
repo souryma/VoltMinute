@@ -1,8 +1,8 @@
 RESOURCE_GROUP="VoltMinute"
 LOCATION="francecentral"
-CONTAINERAPPS_ENVIRONMENT=""
-APP_NAME="VoltMinuteRegistry"
-REGISTRY_SERVER=""
+CONTAINERAPPS_ENVIRONMENT="VoltMinuteContainerAppEnvironment"
+APP_NAME="VoltMinuteContainerApp"
+REGISTRY_SERVER="VoltMinuteRegistry"
 az containerapp up \
   --name $APP_NAME \
   --source . \
