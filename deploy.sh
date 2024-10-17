@@ -9,4 +9,6 @@ az containerapp up \
   --location $LOCATION \
   --resource-group $RESOURCE_GROUP \
   --registry-server $REGISTRY_SERVER \
-  --environment $CONTAINERAPPS_ENVIRONMENT
+  --environment $CONTAINERAPPS_ENVIRONMENT \
+  --registry-username "VoltMinuteRegistry" \
+  --registry-password PASSWORD_REGISTRY_VOLTMINUTE
