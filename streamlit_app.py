@@ -7,3 +7,6 @@ st.write(
 st.write(
     "PIKA PIKA"
 )
+st.text_input(
+    "Numero de batterie : "
+)
