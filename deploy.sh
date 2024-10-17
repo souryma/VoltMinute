@@ -1,7 +1,7 @@
 RESOURCE_GROUP="VoltMinute"
 LOCATION="francecentral"
-CONTAINERAPPS_ENVIRONMENT="VoltMinuteContainerAppEnvironment"
-APP_NAME="VoltMinuteContainerApp"
+CONTAINERAPPS_ENVIRONMENT=""
+APP_NAME=""
 REGISTRY_SERVER="voltminuteregistry.azurecr.io"
 az containerapp up \
   --name $APP_NAME \
