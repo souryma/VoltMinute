@@ -7,6 +7,11 @@ st.title("⚡ VOLTMINUTE ⚡")
 st.write(
     "Borne : **Champ de Mars (Angoulême)**"
 )
+
+st.page_link("streamlit_app.py", label="Home", icon="🏠")
+st.page_link("pages/pageChrono.py", label="Page 1", icon="1️⃣")
+st.page_link("http://www.google.com", label="Google", icon="🌎")
+
 st.write(
     "Batteries disponibles : "
 )
@@ -36,3 +41,16 @@ def connect_to_cosmos_db():
 container = connect_to_cosmos_db()
 if container:
     st.success("Connexion à Cosmos DB établie avec succès !")
+
+# Exemple : Lire tous les éléments d'un conteneur
+def read_items():
+    if container:
+        items = list(container.read_all_items())
+        return items
+    return []
+
+# Afficher les données dans Streamlit
+items = read_items()
+if items:
+    st.write("Données récupérées :")
+    st.json(items)
