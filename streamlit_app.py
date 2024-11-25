@@ -1,19 +1,11 @@
 import streamlit as st
 
 st.image("img/VoltMinuteLogo.png", width=146)
-
 st.title("⚡ VOLTMINUTE ⚡")
+st.write("______")
 
 st.write(
     "Borne : **Champ de Mars (Angoulême)**"
-)
-
-st.page_link("streamlit_app.py", label="Home", icon="🏠")
-st.page_link("pages/pageChrono.py", label="Page 1", icon="1️⃣")
-st.page_link("http://www.google.com", label="Google", icon="🌎")
-
-st.write(
-    "Batteries disponibles : "
 )
 
 from azure.cosmos import CosmosClient, exceptions
@@ -39,8 +31,8 @@ def connect_to_cosmos_db():
 
 # Initialisation de la connexion
 container = connect_to_cosmos_db()
-if container:
-    st.success("Connexion à Cosmos DB établie avec succès !")
+#if container:
+    #st.success("Connexion à Cosmos DB établie avec succès !")
 
 # Exemple : Lire tous les éléments d'un conteneur
 def read_items():
@@ -52,5 +44,9 @@ def read_items():
 # Afficher les données dans Streamlit
 items = read_items()
 if items:
-    st.write("Données récupérées :")
-    st.json(items)
+    for item in items:
+        battery_name = item.get("name", "Clé non trouvée")  # Remplacez "name" par la clé que vous cherchez
+        battery_level = item.get("BatteryLevel", "Clé non trouvée")  # Remplacez "name" par la clé que vous cherchez
+        if st.button(f"{battery_name} - 🔋 Chargée à {battery_level}"):
+            st.page_link("pages/pageChrono.py", label="Je choisis cette batterie", icon="⚡")
+    
