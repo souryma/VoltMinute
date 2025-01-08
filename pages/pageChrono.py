@@ -2,14 +2,39 @@ import streamlit as st
 import time
 import datetime as dt
 
+from azure.cosmos import CosmosClient
+
+# vérifier si la batterie est toujours connectee
+def check_battery_state(item_id):
+    # Paramètres de connexion Cosmos DB
+    secrets = st.secrets["cosmosdb"]
+    COSMOS_URI = secrets["uri"]
+    COSMOS_KEY = secrets["key"]
+    DATABASE_NAME = secrets["database"]
+    CONTAINER_NAME = secrets["container"]
+
+    # Connexion
+    client = CosmosClient(COSMOS_URI, COSMOS_KEY)
+    database = client.get_database_client(DATABASE_NAME)
+    container = database.get_container_client(CONTAINER_NAME)
+
+    # Rechercher l'item existant
+    item = container.read_item(item_id, partition_key=item_id)  # Remplacez 'item_id' par votre clé de partition si nécessaire
+
+    if (item["isBorrowed"] == "false"):
+        return True
+    else:
+        return False
+
 def chronometer():
     ts = 1
     if st.button("Go to 10min"):
         ts = 600
     if st.button("Go to 30min"):
         ts = 1800
+    is_borrowed = False
     with st.empty():
-        while ts:
+        while (ts):
             mins, secs = divmod(ts, 60)
             time_now = '{:02d}:{:02d}'.format(mins, secs)
             
@@ -20,12 +45,39 @@ def chronometer():
 
             st.header(f"⏰ Temps d'utilisation : {time_now}  \n 💸 Prix à payer : {price} €  \n _______")
 
-            time.sleep(1)
+            if check_battery_state("battery001"):
+                break
+
+            # pas besoin d'attendre car la requete à la bdd prend du temps
+            time.sleep(0)
             ts += 1
 
         st.write("Fin du chrono")
 
-from azure.cosmos import CosmosClient
+# Indiquer que la batterie est empruntée
+def start_borrowed(item_id):
+    # Paramètres de connexion Cosmos DB
+    secrets = st.secrets["cosmosdb"]
+    COSMOS_URI = secrets["uri"]
+    COSMOS_KEY = secrets["key"]
+    DATABASE_NAME = secrets["database"]
+    CONTAINER_NAME = secrets["container"]
+
+    # Connexion
+    client = CosmosClient(COSMOS_URI, COSMOS_KEY)
+    database = client.get_database_client(DATABASE_NAME)
+    container = database.get_container_client(CONTAINER_NAME)
+
+    # Rechercher l'item existant
+    item = container.read_item(item_id, partition_key=item_id)  # Remplacez 'item_id' par votre clé de partition si nécessaire
+
+    # Modifier l'attribut de l'item
+    item["isBorrowed"] = "true"
+
+    # Mettre à jour l'item dans Cosmos DB
+    updated_item = container.replace_item(item_id, item)
+    return updated_item
+    
 
 # Mettre à jour un item
 def update_item(item_id, date_start):
@@ -72,11 +124,15 @@ def main():
     item_id = "battery001"  # ID de l'item à mettre à jour
     date_start = time
 
+    start_borrowed(item_id)
+
     # Mettre à jour l'heure à laquelle a été prise la batterie dans la BDD
     updated_item = update_item(item_id, date_start)
     print(f"Item mis à jour: {updated_item}")
 
     chronometer()
+
+    st.page_link("pages/pageRendu.py", label="J'ai rendu ma batterie !", icon="⚡")
     
 if __name__ == '__main__':
     main()
