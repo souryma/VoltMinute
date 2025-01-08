@@ -53,7 +53,7 @@ def update_item(item_id, date_start):
     return updated_item
 
 def main():
-    #st.image("img/VoltMinuteLogo.png", width=146)
+    st.image("img/VoltMinuteLogo.png", width=146)
     st.title("⚡ VOLTMINUTE ⚡")
     st.write("______")
 

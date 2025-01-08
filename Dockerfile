@@ -11,6 +11,14 @@ WORKDIR /home
 
 COPY streamlit_app.py requirements.txt /home/
 
+# Assurez-vous que le dossier `.streamlit/` existe, puis ajoutez le fichier secrets.toml
+COPY .streamlit/secrets.toml /home/.streamlit/secrets.toml
+
+# Copier les images dans un dossier "static"
+COPY img/ /home/img/
+
+COPY pages/ /home/pages/
+
 RUN pip3 install -r requirements.txt
 
 EXPOSE 8501

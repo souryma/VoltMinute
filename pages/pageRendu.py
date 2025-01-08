@@ -2,7 +2,7 @@ import streamlit as st
 from azure.cosmos import CosmosClient
 import datetime as dt
 
-#st.image("img/VoltMinuteLogo.png", width=146)
+st.image("img/VoltMinuteLogo.png", width=146)
 st.title("⚡ VOLTMINUTE ⚡")
 st.write("______")
 
