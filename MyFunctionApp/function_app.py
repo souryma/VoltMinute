@@ -5,6 +5,7 @@ from azure.cosmos import CosmosClient, PartitionKey
 
 # Cosmos DB configuration
 COSMOS_URI = "https://voltminuteserver.documents.azure.com/"
+COSMOS_KEY = ""
 DATABASE_NAME = "BatteryDatabase"
 CONTAINER_NAME = "BatteryTable"
 
