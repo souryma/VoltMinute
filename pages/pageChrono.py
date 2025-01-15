@@ -28,11 +28,11 @@ def check_battery_state(item_id):
 
 def chronometer():
     ts = 1
-    if st.button("Go to 10min"):
-        ts = 600
-    if st.button("Go to 30min"):
-        ts = 1800
-    is_borrowed = False
+    # DEBUG
+    # if st.button("Go to 10min"):
+    #     ts = 600
+    # if st.button("Go to 30min"):
+    #     ts = 1800
     with st.empty():
         while (ts):
             mins, secs = divmod(ts, 60)
